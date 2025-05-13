@@ -1,5 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://du0np2ouswccb"]
+[gd_scene load_steps=13 format=3 uid="uid://du0np2ouswccb"]
 
+[ext_resource type="Script" path="res://popup_menu_manager.gd" id="1_b0ldc"]
 [ext_resource type="Texture2D" uid="uid://bjjhloyei4fwr" path="res://Sprout Lands - UI Pack - Basic pack/Sprite sheets/Sprite sheet for Basic Pack.png" id="1_ijypv"]
 [ext_resource type="FontFile" uid="uid://bio881r3y3qga" path="res://Sprout Lands - UI Pack - Basic pack/fonts/pixelFont-7-8x14-sproutLands.ttf" id="2_um3u1"]
 
@@ -51,19 +52,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="popupMenu" type="MarginContainer" parent="."]
+[node name="popupMenu" type="MarginContainer" parent="." node_paths=PackedStringArray("menu_screen", "open_menu_screen")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_b0ldc")
+menu_screen = NodePath("baseMenuScreenContainer")
+open_menu_screen = NodePath("baseMenuOpenButtonContainer")
 
 [node name="baseMenuScreenContainer" type="VBoxContainer" parent="popupMenu"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
-theme_override_constants/separation = 10
+theme_override_constants/separation = 40
 
 [node name="baseMenuScreen" type="MarginContainer" parent="popupMenu/baseMenuScreenContainer"]
 layout_mode = 2
@@ -79,6 +84,8 @@ custom_minimum_size = Vector2(50, 4)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme_override_styles/hover = SubResource("StyleBoxTexture_e2uh0")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_e2uh0")
 theme_override_styles/normal = SubResource("StyleBoxTexture_e2uh0")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="popupMenu/baseMenuScreenContainer/baseMenuScreen/VBoxContainer"]
@@ -180,16 +187,22 @@ text = "SCORE:"
 [node name="Separator" type="Control" parent="popupMenu/baseMenuScreenContainer"]
 layout_mode = 2
 
-[node name="baseMenuOpenButtonContainer" type="VBoxContainer" parent="popupMenu/baseMenuScreenContainer"]
+[node name="baseMenuOpenButtonContainer" type="VBoxContainer" parent="popupMenu"]
 layout_mode = 2
+size_flags_vertical = 8
 theme_override_constants/separation = 20
 
-[node name="toggleMenuButton" type="Button" parent="popupMenu/baseMenuScreenContainer/baseMenuOpenButtonContainer"]
+[node name="toggleMenuButton" type="Button" parent="popupMenu/baseMenuOpenButtonContainer"]
 custom_minimum_size = Vector2(50, 4)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme_override_styles/hover = SubResource("StyleBoxTexture_e2uh0")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_e2uh0")
 theme_override_styles/normal = SubResource("StyleBoxTexture_e2uh0")
 
-[node name="Separator" type="Control" parent="popupMenu/baseMenuScreenContainer/baseMenuOpenButtonContainer"]
+[node name="Separator" type="Control" parent="popupMenu/baseMenuOpenButtonContainer"]
 layout_mode = 2
+
+[connection signal="pressed" from="popupMenu/baseMenuScreenContainer/baseMenuScreen/VBoxContainer/toggleMenuButton" to="popupMenu" method="_on_toggle_menu_button_pressed"]
+[connection signal="pressed" from="popupMenu/baseMenuOpenButtonContainer/toggleMenuButton" to="popupMenu" method="_on_toggle_menu_button_pressed"]
